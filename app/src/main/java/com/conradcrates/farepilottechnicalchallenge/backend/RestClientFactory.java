@@ -6,7 +6,23 @@ package com.conradcrates.farepilottechnicalchallenge.backend;
 
 public class RestClientFactory {
 
+    private static RestClientFactory instance;
+
+    public static RestClientFactory getInstance(){
+        if(instance == null){
+            instance = new RestClientFactory();
+        }
+        return instance;
+    }
+
+
+    private IRestClient restClient;
+
+    private RestClientFactory(){
+        restClient = new StubbedRestClient();
+    }
+
     public IRestClient getRestClient(){
-        return new StubbedRestClient();
+        return restClient;
     }
 }
