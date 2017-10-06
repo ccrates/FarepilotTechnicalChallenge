@@ -3,7 +3,7 @@
     <string name="app_name">FarepilotTechnicalChallenge</string>
 
     <string name="login_header">Login to your account</string>
-    <string name="login_username">Username</string>
+    <string name="login_username">Username (email)</string>
     <string name="login_password">Password</string>
     <string name="login_login">Login</string>
 </resources>
