@@ -20,7 +20,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        getViewReferences();
+        initViews();
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void getViewReferences(){
+    private void initViews(){
         username = (EditText)findViewById(R.id.edit_username);
         password = (EditText)findViewById(R.id.edit_password);
         login = (Button)findViewById(R.id.button_login);

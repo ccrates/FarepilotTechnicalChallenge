@@ -7,17 +7,17 @@ package com.conradcrates.farepilottechnicalchallenge.backend;
 public class RestClient implements IRestClient {
 
     @Override
-    public void newSession(String email, String password) {
-
+    public NetworkResponse newSession(String email, String password) {
+        return null;
     }
 
     @Override
-    public void getUserId() {
-
+    public NetworkResponse getUserDetails() {
+        return null;
     }
 
     @Override
-    public void setUserAvatar(String avatar) {
-
+    public NetworkResponse setUserAvatar(String avatar) {
+        return null;
     }
 }

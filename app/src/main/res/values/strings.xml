@@ -6,4 +6,7 @@
     <string name="login_username">Username (email)</string>
     <string name="login_password">Password</string>
     <string name="login_login">Login</string>
+
+    <string name="profile_username">Username:</string>
+    <string name="profile_password">Password:</string>
 </resources>
