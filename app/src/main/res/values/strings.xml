@@ -9,4 +9,8 @@
 
     <string name="profile_username">Username:</string>
     <string name="profile_password">Password:</string>
+
+    <string name="profile_dialog_avatar_title">New Avatar</string>
+    <string name="profile_dialog_avatar_camera">From Camera</string>
+    <string name="profile_dialog_avatar_gallery">From Gallery</string>
 </resources>
