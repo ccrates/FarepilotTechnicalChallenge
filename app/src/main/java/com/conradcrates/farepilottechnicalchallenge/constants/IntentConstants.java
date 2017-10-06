@@ -7,6 +7,7 @@ package com.conradcrates.farepilottechnicalchallenge.constants;
 public class IntentConstants {
 
     public static final int REQUEST_IMAGE_CAPTURE = 1001;
+    public static final int REQUEST_IMAGE_GALLERY = 1002;
 
     public static final String CAMERA_DATA = "data";
 }

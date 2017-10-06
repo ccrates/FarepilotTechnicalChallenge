@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -68,12 +69,16 @@ public class ProfileActivity extends AppCompatActivity {
 
                         switch (i){
                             case 0:
-                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                if(intent.resolveActivity(getPackageManager()) != null){
-                                    startActivityForResult(intent, IntentConstants.REQUEST_IMAGE_CAPTURE);
+                                Intent camIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                if(camIntent.resolveActivity(getPackageManager()) != null){
+                                    startActivityForResult(camIntent, IntentConstants.REQUEST_IMAGE_CAPTURE);
                                 }
                                 break;
                             case 1:
+                                Intent galIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                if(galIntent.resolveActivity(getPackageManager()) != null){
+                                    startActivityForResult(galIntent, IntentConstants.REQUEST_IMAGE_GALLERY);
+                                }
                                 break;
                         }
                     }
@@ -83,9 +88,18 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == IntentConstants.REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
-            Bundle extras = data.getExtras();
-            Bitmap img = (Bitmap)extras.get(IntentConstants.CAMERA_DATA);
+        switch (requestCode) {
+            case IntentConstants.REQUEST_IMAGE_CAPTURE:
+                if (resultCode == RESULT_OK) {
+                    Bundle extras = data.getExtras();
+                    Bitmap img = (Bitmap) extras.get(IntentConstants.CAMERA_DATA);
+                }
+                break;
+            case IntentConstants.REQUEST_IMAGE_GALLERY:
+                if (resultCode == RESULT_OK) {
+                    Uri img = data.getData();
+                }
+                break;
         }
     }
 }

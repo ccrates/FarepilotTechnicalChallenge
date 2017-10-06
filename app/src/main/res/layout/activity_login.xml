@@ -5,31 +5,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="50dp">
+    android:padding="50dp"
+    android:background="@color/farepilot_background_primary">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/farepilot_logo"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/login_header"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="20dp"
+        style="@style/Login_Header"
+        android:gravity="center_horizontal"/>
 
     <EditText
         android:id="@+id/edit_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/login_username"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        style="@style/Login_EditText"
+        android:inputType="textEmailAddress"/>
 
     <EditText
         android:id="@+id/edit_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/login_password"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        style="@style/Login_EditText"
+        android:inputType="textPassword"/>
 
     <Button
         android:id="@+id/button_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login_login"/>
+        android:text="@string/login_login"
+        android:textColor="@color/white"
+        android:background="@drawable/rounded_button_green"/>
 </LinearLayout>
