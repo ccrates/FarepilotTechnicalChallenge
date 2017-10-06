@@ -16,7 +16,7 @@ public class StubbedRestClient implements IRestClient {
     @Override
     public NetworkResponse getUserDetails() {
         NetworkResponse response = new NetworkResponse();
-        response.addNewResponse(NetworkResponseConstants.EMAIL, "example@example.com");
+        response.addNewResponse(NetworkResponseConstants.EMAIL, "conrad-crates@hotmail.co.uk");
         return response;
     }
 

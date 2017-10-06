@@ -36,9 +36,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initViews(){
-        username = (EditText)findViewById(R.id.edit_username);
-        password = (EditText)findViewById(R.id.edit_password);
-        login = (Button)findViewById(R.id.button_login);
+        username = findViewById(R.id.edit_username);
+        password = findViewById(R.id.edit_password);
+        login = findViewById(R.id.button_login);
     }
 
     private boolean validateCredentials(){
