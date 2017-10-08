@@ -1,23 +1,22 @@
 package com.conradcrates.farepilottechnicalchallenge.profile;
 
+import android.graphics.Bitmap;
+
+import java.io.Serializable;
+
 /**
- * Created by Conrad on 06/10/2017.
+ * Created by Conrad on 08/10/2017.
  */
 
-public class UserDetailsContainer {
+public class UserDetailsContainer implements Serializable {
 
-    private static UserDetailsContainer instance;
+    private Bitmap avatar;
 
-    public static UserDetailsContainer getInstance(){
-        if(instance == null){
-            instance = new UserDetailsContainer();
-        }
-        return instance;
+    public Bitmap getAvatar() {
+        return avatar;
     }
 
-
-
-    private UserDetailsContainer(){
-
+    public void setAvatar(Bitmap avatar) {
+        this.avatar = avatar;
     }
 }

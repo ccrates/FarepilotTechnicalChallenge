@@ -4,11 +4,13 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +22,10 @@ import com.conradcrates.farepilottechnicalchallenge.backend.RestClientFactory;
 import com.conradcrates.farepilottechnicalchallenge.constants.IntentConstants;
 import com.conradcrates.farepilottechnicalchallenge.constants.NetworkResponseConstants;
 import com.conradcrates.farepilottechnicalchallenge.gravatar.Gravatar;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -96,20 +102,37 @@ public class ProfileActivity extends AppCompatActivity {
         return builder.create();
     }
 
+    private byte[] convertBmpToByteArray(Bitmap bmp){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        return baos.toByteArray();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case IntentConstants.REQUEST_IMAGE_CAPTURE:
-                if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
+            Bitmap bmp = null;
+            switch (requestCode) {
+                case IntentConstants.REQUEST_IMAGE_CAPTURE:
                     Bundle extras = data.getExtras();
-                    Bitmap img = (Bitmap) extras.get(IntentConstants.CAMERA_DATA);
-                }
-                break;
-            case IntentConstants.REQUEST_IMAGE_GALLERY:
-                if (resultCode == RESULT_OK) {
-                    Uri img = data.getData();
-                }
-                break;
+                    bmp = (Bitmap) extras.get(IntentConstants.CAMERA_DATA);
+                    break;
+                case IntentConstants.REQUEST_IMAGE_GALLERY:
+                    try {
+                        Uri img = data.getData();
+                        InputStream is = getContentResolver().openInputStream(img);
+                        bmp = BitmapFactory.decodeStream(is);
+                    } catch (FileNotFoundException e) {
+
+                    }
+                    break;
+            }
+            if(bmp != null) {
+                avatar.setImageBitmap(bmp);
+
+                String base64encoded = Base64.encodeToString(convertBmpToByteArray(bmp), Base64.DEFAULT);
+                RestClientFactory.getInstance().getRestClient().setUserAvatar(base64encoded, null);
+            }
         }
     }
 }

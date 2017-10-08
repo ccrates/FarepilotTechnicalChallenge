@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.conradcrates.farepilottechnicalchallenge.ProfileActivity"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/farepilot_background_primary"
+    android:paddingTop="50dp"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image_avatar"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_gravity="right"/>
+        android:layout_gravity="center_horizontal"
+        app:civ_border_color="@color/farepilot_green"
+        app:civ_border_width="3dp"
+        android:layout_marginBottom="20dp"/>
 
     <GridLayout
         android:layout_width="match_parent"
@@ -20,21 +28,27 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/profile_username"/>
+            android:text="@string/profile_username"
+            style="@style/Login_Header"
+            android:layout_marginEnd="5dp"/>
 
         <TextView
             android:id="@+id/text_username"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            style="@style/Login_Header"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/profile_password"/>
+            android:text="@string/profile_password"
+            style="@style/Login_Header"
+            android:layout_marginEnd="5dp"/>
 
         <TextView
             android:id="@+id/text_password"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            style="@style/Login_Header"/>
     </GridLayout>
 </LinearLayout>
