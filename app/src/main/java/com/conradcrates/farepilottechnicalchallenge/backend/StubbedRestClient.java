@@ -9,19 +9,27 @@ import com.conradcrates.farepilottechnicalchallenge.constants.NetworkResponseCon
 public class StubbedRestClient implements IRestClient {
 
     @Override
-    public NetworkResponse newSession(String email, String password) {
-        return null;
+    public void newSession(String email, String password, NetworkCallback callback) {
+        if(callback != null){
+            callback.onSuccess(null);
+        }
     }
 
     @Override
-    public NetworkResponse getUserDetails() {
-        NetworkResponse response = new NetworkResponse();
-        response.addNewResponse(NetworkResponseConstants.EMAIL, "conrad-crates@hotmail.co.uk");
-        return response;
+    public void getUserDetails(NetworkCallback callback) {
+        if(callback != null) {
+            NetworkResponse response = new NetworkResponse();
+            response.addNewResponse(NetworkResponseConstants.EMAIL, "conrad-crates@hotmail.co.uk");
+            callback.onSuccess(response);
+        }
     }
 
     @Override
-    public NetworkResponse setUserAvatar(String avatar) {
-        return null;
+    public void setUserAvatar(String encodedData, NetworkCallback callback) {
+        if(callback != null){
+            NetworkResponse response = new NetworkResponse();
+            response.addNewResponse(NetworkResponseConstants.AVATAR_URL, "");
+            callback.onSuccess(response);
+        }
     }
 }

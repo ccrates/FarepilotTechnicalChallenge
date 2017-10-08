@@ -1,13 +1,14 @@
 package com.conradcrates.farepilottechnicalchallenge;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.conradcrates.farepilottechnicalchallenge.backend.RestClient;
+import com.conradcrates.farepilottechnicalchallenge.backend.NetworkCallback;
+import com.conradcrates.farepilottechnicalchallenge.backend.NetworkResponse;
 import com.conradcrates.farepilottechnicalchallenge.backend.RestClientFactory;
 
 public class LoginActivity extends AppCompatActivity {
@@ -26,10 +27,18 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(validateCredentials()) {
-                    RestClientFactory.getInstance().getRestClient().newSession("", "");
+                    RestClientFactory.getInstance().getRestClient().newSession("", "", new NetworkCallback() {
+                        @Override
+                        public void onSuccess(NetworkResponse response) {
+                            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                            startActivity(intent);
+                        }
 
-                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                    startActivity(intent);
+                        @Override
+                        public void onFailure(NetworkResponse response) {
+
+                        }
+                    });
                 }
             }
         });

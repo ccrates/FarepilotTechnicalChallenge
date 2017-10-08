@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.conradcrates.farepilottechnicalchallenge.backend.NetworkCallback;
 import com.conradcrates.farepilottechnicalchallenge.backend.NetworkResponse;
 import com.conradcrates.farepilottechnicalchallenge.backend.RestClientFactory;
 import com.conradcrates.farepilottechnicalchallenge.constants.IntentConstants;
@@ -32,13 +33,22 @@ public class ProfileActivity extends AppCompatActivity {
 
         initViews();
 
-        NetworkResponse response = RestClientFactory.getInstance().getRestClient().getUserDetails();
-        String email = response.getValue(NetworkResponseConstants.EMAIL);
+        RestClientFactory.getInstance().getRestClient().getUserDetails(new NetworkCallback() {
+            @Override
+            public void onSuccess(NetworkResponse response) {
+                String email = response.getValue(NetworkResponseConstants.EMAIL);
+                username.setText(email);
 
-        username.setText(email);
+                String url = Gravatar.createGravatarUrl(email);
+                Glide.with(getApplicationContext()).load(url).into(avatar);
+            }
 
-        String url = Gravatar.createGravatarUrl(email);
-        Glide.with(getApplicationContext()).load(url).into(avatar);
+            @Override
+            public void onFailure(NetworkResponse response) {
+
+            }
+        });
+
 
         avatar.setOnClickListener(new View.OnClickListener() {
             @Override

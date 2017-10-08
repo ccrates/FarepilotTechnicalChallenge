@@ -7,10 +7,10 @@ package com.conradcrates.farepilottechnicalchallenge.backend;
 public interface IRestClient {
 
     // TODO password probably wants to be a different type
-    NetworkResponse newSession(String email, String password);
+    void newSession(String email, String password, NetworkCallback callback);
 
-    NetworkResponse getUserDetails();
+    void getUserDetails(NetworkCallback callback);
 
     // TODO must be base 64 encoded data for avatar
-    NetworkResponse setUserAvatar(String avatar);
+    void setUserAvatar(String avatar, NetworkCallback callback);
 }
