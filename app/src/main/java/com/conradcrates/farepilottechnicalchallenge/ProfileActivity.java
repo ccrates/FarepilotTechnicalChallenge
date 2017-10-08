@@ -6,10 +6,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,7 +21,7 @@ import com.conradcrates.farepilottechnicalchallenge.backend.NetworkResponse;
 import com.conradcrates.farepilottechnicalchallenge.backend.RestClientFactory;
 import com.conradcrates.farepilottechnicalchallenge.constants.IntentConstants;
 import com.conradcrates.farepilottechnicalchallenge.constants.NetworkResponseConstants;
-import com.conradcrates.farepilottechnicalchallenge.gravatar.Gravatar;
+import com.conradcrates.farepilottechnicalchallenge.util.Utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -45,7 +45,7 @@ public class ProfileActivity extends AppCompatActivity {
                 String email = response.getValue(NetworkResponseConstants.EMAIL);
                 username.setText(email);
 
-                String url = Gravatar.createGravatarUrl(email);
+                String url = Utils.createGravatarUrl(email);
                 Glide.with(getApplicationContext()).load(url).into(avatar);
             }
 
@@ -123,14 +123,16 @@ public class ProfileActivity extends AppCompatActivity {
                         InputStream is = getContentResolver().openInputStream(img);
                         bmp = BitmapFactory.decodeStream(is);
                     } catch (FileNotFoundException e) {
-
+                        e.printStackTrace();
                     }
                     break;
             }
             if(bmp != null) {
-                avatar.setImageBitmap(bmp);
+                //TODO 244 needs to be a constant that is stored somewhere else
+                Bitmap img = Utils.resizeBitmap(bmp, 244);
+                avatar.setImageBitmap(img);
 
-                String base64encoded = Base64.encodeToString(convertBmpToByteArray(bmp), Base64.DEFAULT);
+                String base64encoded = Base64.encodeToString(convertBmpToByteArray(img), Base64.DEFAULT);
                 RestClientFactory.getInstance().getRestClient().setUserAvatar(base64encoded, null);
             }
         }

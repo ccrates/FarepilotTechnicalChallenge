@@ -1,13 +1,15 @@
-package com.conradcrates.farepilottechnicalchallenge.gravatar;
+package com.conradcrates.farepilottechnicalchallenge.util;
+
+import android.graphics.Bitmap;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Created by Conrad on 06/10/2017.
+ * Created by Conrad on 08/10/2017.
  */
 
-public class Gravatar {
+public class Utils {
 
     public static String createGravatarUrl(String email){
         String hashedEmail = md5(email.trim().toLowerCase());
@@ -15,7 +17,7 @@ public class Gravatar {
     }
 
     // Code courtesy of stackoverflow: https://stackoverflow.com/questions/4846484/md5-hashing-in-android
-    private static String md5(final String s) {
+    public static String md5(final String s) {
         final String MD5 = "MD5";
         try {
             // Create MD5 Hash
@@ -38,5 +40,24 @@ public class Gravatar {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public static Bitmap resizeBitmap(Bitmap bmp, int maxDimension){
+        float height = bmp.getHeight();
+        float width = bmp.getWidth();
+
+        float ratio = height / width;
+
+        if(ratio > 1){
+            // Height is greater than width
+            height = maxDimension;
+            width = height / ratio;
+        } else {
+            // Width is greater than height
+            width = maxDimension;
+            height = width * ratio;
+        }
+
+        return Bitmap.createScaledBitmap(bmp, (int)width, (int)height, false);
     }
 }
