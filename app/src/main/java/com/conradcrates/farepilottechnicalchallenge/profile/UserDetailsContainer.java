@@ -1,7 +1,5 @@
 package com.conradcrates.farepilottechnicalchallenge.profile;
 
-import android.graphics.Bitmap;
-
 import java.io.Serializable;
 
 /**
@@ -10,13 +8,13 @@ import java.io.Serializable;
 
 public class UserDetailsContainer implements Serializable {
 
-    private Bitmap avatar;
+    private String userId;
 
-    public Bitmap getAvatar() {
-        return avatar;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setAvatar(Bitmap avatar) {
-        this.avatar = avatar;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

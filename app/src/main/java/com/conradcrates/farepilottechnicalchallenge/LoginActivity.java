@@ -10,6 +10,8 @@ import android.widget.EditText;
 import com.conradcrates.farepilottechnicalchallenge.backend.NetworkCallback;
 import com.conradcrates.farepilottechnicalchallenge.backend.NetworkResponse;
 import com.conradcrates.farepilottechnicalchallenge.backend.RestClientFactory;
+import com.conradcrates.farepilottechnicalchallenge.constants.NetworkResponseConstants;
+import com.conradcrates.farepilottechnicalchallenge.profile.UserDetailsController;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -21,6 +23,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        String userId = UserDetailsController.getUserDetails().getUserId();
+        if(userId != null && !userId.isEmpty()){
+            goToProfileActivity();
+            return;
+        }
+
         initViews();
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -30,8 +38,12 @@ public class LoginActivity extends AppCompatActivity {
                     RestClientFactory.getInstance().getRestClient().newSession(username.getText().toString(), password.getText().toString(), new NetworkCallback() {
                         @Override
                         public void onSuccess(NetworkResponse response) {
-                            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                            startActivity(intent);
+                            String userId = response.getValue(NetworkResponseConstants.USER_ID);
+
+                            if(userId != null && !userId.isEmpty()){
+                                UserDetailsController.getUserDetails().setUserId(userId);
+                            }
+                            goToProfileActivity();
                         }
 
                         @Override
@@ -42,6 +54,12 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void goToProfileActivity(){
+        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void initViews(){

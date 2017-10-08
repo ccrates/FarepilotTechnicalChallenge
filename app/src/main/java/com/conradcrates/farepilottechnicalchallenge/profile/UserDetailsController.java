@@ -10,14 +10,12 @@ public class UserDetailsController {
 
     public static UserDetailsContainer getUserDetails(){
         if(instance == null){
-
+            instance = new UserDetailsContainer();
         }
         return instance;
     }
 
 
 
-    private UserDetailsController(){
-
-    }
+    private UserDetailsController(){}
 }
