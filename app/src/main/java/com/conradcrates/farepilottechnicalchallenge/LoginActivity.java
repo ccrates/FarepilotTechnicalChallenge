@@ -1,6 +1,8 @@
 package com.conradcrates.farepilottechnicalchallenge;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,7 +13,7 @@ import com.conradcrates.farepilottechnicalchallenge.backend.NetworkCallback;
 import com.conradcrates.farepilottechnicalchallenge.backend.NetworkResponse;
 import com.conradcrates.farepilottechnicalchallenge.backend.RestClientFactory;
 import com.conradcrates.farepilottechnicalchallenge.constants.NetworkResponseConstants;
-import com.conradcrates.farepilottechnicalchallenge.profile.UserDetailsController;
+import com.conradcrates.farepilottechnicalchallenge.constants.SharedPreferenceConstants;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -23,7 +25,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        String userId = UserDetailsController.getUserDetails().getUserId();
+        SharedPreferences prefs = getSharedPreferences(SharedPreferenceConstants.PREFS_KEY, Context.MODE_PRIVATE);
+        String userId = prefs.getString(SharedPreferenceConstants.USER_ID, null);
         if(userId != null && !userId.isEmpty()){
             goToProfileActivity();
             return;
@@ -41,7 +44,10 @@ public class LoginActivity extends AppCompatActivity {
                             String userId = response.getValue(NetworkResponseConstants.USER_ID);
 
                             if(userId != null && !userId.isEmpty()){
-                                UserDetailsController.getUserDetails().setUserId(userId);
+                                SharedPreferences prefs = getSharedPreferences(SharedPreferenceConstants.PREFS_KEY, Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putString(SharedPreferenceConstants.USER_ID, userId);
+                                editor.apply();
                             }
                             goToProfileActivity();
                         }

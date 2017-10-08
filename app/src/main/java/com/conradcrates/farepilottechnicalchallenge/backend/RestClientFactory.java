@@ -24,7 +24,7 @@ public class RestClientFactory {
         if(STUBBED_CLIENT) {
             restClient = new StubbedRestClient();
         } else {
-            restClient = new RestClient();
+            restClient = new RestClientHandler();
         }
     }
 
