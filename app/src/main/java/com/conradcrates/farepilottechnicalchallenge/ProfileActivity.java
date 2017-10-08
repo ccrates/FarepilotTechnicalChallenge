@@ -45,8 +45,11 @@ public class ProfileActivity extends AppCompatActivity {
                 String email = response.getValue(NetworkResponseConstants.EMAIL);
                 username.setText(email);
 
-                String url = Utils.createGravatarUrl(email);
-                Glide.with(getApplicationContext()).load(url).into(avatar);
+                String avatarUrl = response.getValue(NetworkResponseConstants.AVATAR_URL);
+                if(avatarUrl == null || avatarUrl.isEmpty()){
+                    avatarUrl = Utils.createGravatarUrl(email);
+                }
+                Glide.with(getApplicationContext()).load(avatarUrl).into(avatar);
             }
 
             @Override

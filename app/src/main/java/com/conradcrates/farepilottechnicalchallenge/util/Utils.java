@@ -13,7 +13,7 @@ public class Utils {
 
     public static String createGravatarUrl(String email){
         String hashedEmail = md5(email.trim().toLowerCase());
-        return "https://www.gravatar.com/avatar/" + hashedEmail;
+        return "https://www.gravatar.com/avatar/" + hashedEmail + "?s=244";
     }
 
     // Code courtesy of stackoverflow: https://stackoverflow.com/questions/4846484/md5-hashing-in-android

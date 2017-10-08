@@ -6,6 +6,8 @@ package com.conradcrates.farepilottechnicalchallenge.backend;
 
 public class RestClientFactory {
 
+    private final boolean STUBBED_CLIENT = true;
+
     private static RestClientFactory instance;
 
     public static RestClientFactory getInstance(){
@@ -19,7 +21,11 @@ public class RestClientFactory {
     private IRestClient restClient;
 
     private RestClientFactory(){
-        restClient = new StubbedRestClient();
+        if(STUBBED_CLIENT) {
+            restClient = new StubbedRestClient();
+        } else {
+            restClient = new RestClient();
+        }
     }
 
     public IRestClient getRestClient(){

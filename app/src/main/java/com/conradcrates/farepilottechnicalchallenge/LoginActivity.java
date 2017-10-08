@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(validateCredentials()) {
-                    RestClientFactory.getInstance().getRestClient().newSession("", "", new NetworkCallback() {
+                    RestClientFactory.getInstance().getRestClient().newSession(username.getText().toString(), password.getText().toString(), new NetworkCallback() {
                         @Override
                         public void onSuccess(NetworkResponse response) {
                             Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);

@@ -8,10 +8,15 @@ import com.conradcrates.farepilottechnicalchallenge.constants.NetworkResponseCon
 
 public class StubbedRestClient implements IRestClient {
 
+    private String email;
+
     @Override
     public void newSession(String email, String password, NetworkCallback callback) {
+        this.email = email;
         if(callback != null){
-            callback.onSuccess(null);
+            NetworkResponse response = new NetworkResponse();
+            response.addNewResponse(NetworkResponseConstants.USER_ID, "1");
+            callback.onSuccess(response);
         }
     }
 
@@ -19,7 +24,7 @@ public class StubbedRestClient implements IRestClient {
     public void getUserDetails(NetworkCallback callback) {
         if(callback != null) {
             NetworkResponse response = new NetworkResponse();
-            response.addNewResponse(NetworkResponseConstants.EMAIL, "conrad-crates@hotmail.co.uk");
+            response.addNewResponse(NetworkResponseConstants.EMAIL, email);
             callback.onSuccess(response);
         }
     }
