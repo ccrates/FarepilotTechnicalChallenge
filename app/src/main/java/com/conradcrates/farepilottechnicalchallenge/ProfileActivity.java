@@ -26,7 +26,6 @@ import com.conradcrates.farepilottechnicalchallenge.constants.NetworkResponseCon
 import com.conradcrates.farepilottechnicalchallenge.constants.SharedPreferenceConstants;
 import com.conradcrates.farepilottechnicalchallenge.util.Utils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -60,11 +59,13 @@ public class ProfileActivity extends AppCompatActivity {
                 }
                 username.setText(email);
 
-                if(bmp == null) {
-                    String avatarUrl = response.getValue(NetworkResponseConstants.AVATAR_URL);
-                    if (avatarUrl == null || avatarUrl.isEmpty()) {
-                        avatarUrl = Utils.createGravatarUrl(email);
-                    }
+                String avatarUrl = response.getValue(NetworkResponseConstants.AVATAR_URL);
+                if(avatarUrl != null && !avatarUrl.isEmpty()){
+                    // If the server has an avatar url, it overrides the stored image
+                    Glide.with(getApplicationContext()).load(avatarUrl).into(avatar);
+                } else if (bmp == null){
+                    // If there is no stored image and avatar url, generate a gravatar using email
+                    avatarUrl = Utils.createGravatarUrl(email);
                     Glide.with(getApplicationContext()).load(avatarUrl).into(avatar);
                 }
             }
@@ -74,7 +75,6 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
-
 
         avatar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,11 +121,6 @@ public class ProfileActivity extends AppCompatActivity {
         return builder.create();
     }
 
-    private byte[] convertBmpToByteArray(Bitmap bmp){
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        return baos.toByteArray();
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -152,7 +147,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Utils.addBlackAndWhiteFilter(img);
                 avatar.setImageBitmap(img);
 
-                String base64encoded = Base64.encodeToString(convertBmpToByteArray(img), Base64.DEFAULT);
+                String base64encoded = Base64.encodeToString(Utils.convertBitmapToByteArray(img), Base64.DEFAULT);
                 RestClientFactory.getInstance().getRestClient().setUserAvatar(base64encoded, null);
 
                 saveAvatar(img);

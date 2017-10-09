@@ -6,6 +6,7 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 
+import java.io.ByteArrayOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -73,4 +74,11 @@ public class Utils {
         paint.setColorFilter(new ColorMatrixColorFilter(cm));
         canvas.drawBitmap(source, 0, 0, paint);
     }
+
+    public static byte[] convertBitmapToByteArray(Bitmap bmp){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        return baos.toByteArray();
+    }
+
 }
