@@ -62,11 +62,11 @@ public class ProfileActivity extends AppCompatActivity {
                 String avatarUrl = response.getValue(NetworkResponseConstants.AVATAR_URL);
                 if(avatarUrl != null && !avatarUrl.isEmpty()){
                     // If the server has an avatar url, it overrides the stored image
-                    Glide.with(getApplicationContext()).load(avatarUrl).into(avatar);
+                    Glide.with(getApplicationContext()).load(avatarUrl).placeholder(R.drawable.farepilot_logo_greyscale).into(avatar);
                 } else if (bmp == null){
                     // If there is no stored image and avatar url, generate a gravatar using email
                     avatarUrl = Utils.createGravatarUrl(email);
-                    Glide.with(getApplicationContext()).load(avatarUrl).into(avatar);
+                    Glide.with(getApplicationContext()).load(avatarUrl).placeholder(R.drawable.farepilot_logo_greyscale).into(avatar);
                 }
             }
 
