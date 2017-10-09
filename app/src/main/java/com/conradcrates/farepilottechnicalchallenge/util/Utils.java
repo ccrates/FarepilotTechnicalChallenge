@@ -82,5 +82,4 @@ public class Utils {
         bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         return baos.toByteArray();
     }
-
 }
