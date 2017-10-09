@@ -13,3 +13,4 @@ The camera intent returns an image that is of a much lower resolution than the p
 With more time there is extra functionality that I could add to the app:
 
 * If a user chooses a new avatar image while there is no network connection. The image could be uploaded once a connection is re-established.
+* Due to time constraints. I will be creating unit tests throughout the day
