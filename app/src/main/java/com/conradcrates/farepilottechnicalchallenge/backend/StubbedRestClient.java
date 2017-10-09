@@ -23,10 +23,6 @@ public class StubbedRestClient implements IRestClient {
     @Override
     public void getUserDetails(NetworkCallback callback) {
         if(callback != null) {
-            if(email == null){
-                email = "(Stubbed server. Email not stored)";
-            }
-
             NetworkResponse response = new NetworkResponse();
             response.addNewResponse(NetworkResponseConstants.EMAIL, email);
             callback.onSuccess(response);

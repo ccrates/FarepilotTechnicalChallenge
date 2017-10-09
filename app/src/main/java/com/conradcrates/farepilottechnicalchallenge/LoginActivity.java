@@ -47,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
                                 SharedPreferences prefs = getSharedPreferences(SharedPreferenceConstants.PREFS_KEY, Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = prefs.edit();
                                 editor.putString(SharedPreferenceConstants.USER_ID, userId);
+                                editor.putString(SharedPreferenceConstants.USER_EMAIL, username.getText().toString());
                                 editor.apply();
                             }
                             goToProfileActivity();

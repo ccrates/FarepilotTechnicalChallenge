@@ -1,6 +1,10 @@
 package com.conradcrates.farepilottechnicalchallenge.util;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -59,5 +63,14 @@ public class Utils {
         }
 
         return Bitmap.createScaledBitmap(bmp, (int)width, (int)height, false);
+    }
+
+    public static void addBlackAndWhiteFilter(Bitmap source){
+        Canvas canvas = new Canvas(source);
+        ColorMatrix cm = new ColorMatrix();
+        cm.setSaturation(0);
+        Paint paint = new Paint();
+        paint.setColorFilter(new ColorMatrixColorFilter(cm));
+        canvas.drawBitmap(source, 0, 0, paint);
     }
 }

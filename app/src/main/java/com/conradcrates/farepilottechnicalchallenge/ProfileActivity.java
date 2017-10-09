@@ -1,8 +1,10 @@
 package com.conradcrates.farepilottechnicalchallenge;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -21,15 +23,19 @@ import com.conradcrates.farepilottechnicalchallenge.backend.NetworkResponse;
 import com.conradcrates.farepilottechnicalchallenge.backend.RestClientFactory;
 import com.conradcrates.farepilottechnicalchallenge.constants.IntentConstants;
 import com.conradcrates.farepilottechnicalchallenge.constants.NetworkResponseConstants;
+import com.conradcrates.farepilottechnicalchallenge.constants.SharedPreferenceConstants;
 import com.conradcrates.farepilottechnicalchallenge.util.Utils;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private TextView username, password;
+    private TextView username;
     private ImageView avatar;
 
     @Override
@@ -39,17 +45,28 @@ public class ProfileActivity extends AppCompatActivity {
 
         initViews();
 
+        final Bitmap bmp = loadAvatar();
+        if(bmp != null) {
+            avatar.setImageBitmap(bmp);
+        }
+
         RestClientFactory.getInstance().getRestClient().getUserDetails(new NetworkCallback() {
             @Override
             public void onSuccess(NetworkResponse response) {
                 String email = response.getValue(NetworkResponseConstants.EMAIL);
+                if(email == null || email.isEmpty()){
+                    SharedPreferences prefs = getSharedPreferences(SharedPreferenceConstants.PREFS_KEY, Context.MODE_PRIVATE);
+                    email = prefs.getString(SharedPreferenceConstants.USER_EMAIL, "");
+                }
                 username.setText(email);
 
-                String avatarUrl = response.getValue(NetworkResponseConstants.AVATAR_URL);
-                if(avatarUrl == null || avatarUrl.isEmpty()){
-                    avatarUrl = Utils.createGravatarUrl(email);
+                if(bmp == null) {
+                    String avatarUrl = response.getValue(NetworkResponseConstants.AVATAR_URL);
+                    if (avatarUrl == null || avatarUrl.isEmpty()) {
+                        avatarUrl = Utils.createGravatarUrl(email);
+                    }
+                    Glide.with(getApplicationContext()).load(avatarUrl).into(avatar);
                 }
-                Glide.with(getApplicationContext()).load(avatarUrl).into(avatar);
             }
 
             @Override
@@ -70,7 +87,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void initViews(){
         username = findViewById(R.id.text_username);
-        password = findViewById(R.id.text_password);
         avatar = findViewById(R.id.image_avatar);
     }
 
@@ -133,11 +149,54 @@ public class ProfileActivity extends AppCompatActivity {
             if(bmp != null) {
                 //TODO 244 needs to be a constant that is stored somewhere else
                 Bitmap img = Utils.resizeBitmap(bmp, 244);
+                Utils.addBlackAndWhiteFilter(img);
                 avatar.setImageBitmap(img);
 
                 String base64encoded = Base64.encodeToString(convertBmpToByteArray(img), Base64.DEFAULT);
                 RestClientFactory.getInstance().getRestClient().setUserAvatar(base64encoded, null);
+
+                saveAvatar(img);
             }
         }
+    }
+
+    private void saveAvatar(Bitmap bmp){
+        FileOutputStream fos = null;
+        try {
+            fos = openFileOutput("avatar", Context.MODE_PRIVATE);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(fos != null) {
+                    fos.close();
+                }
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private Bitmap loadAvatar(){
+        Bitmap bmp = null;
+        FileInputStream fis = null;
+        try {
+            fis = openFileInput("avatar");
+            bmp = BitmapFactory.decodeStream(fis);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(fis != null) {
+                    fis.close();
+                }
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+        return bmp;
     }
 }

@@ -1,6 +1,5 @@
 package com.conradcrates.farepilottechnicalchallenge.retrofit;
 
-import com.conradcrates.farepilottechnicalchallenge.backend.RestClientHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -12,6 +11,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RetrofitFactory {
+
+    private final String SERVER_URL = "";
 
     private static RetrofitFactory instance;
 
@@ -37,7 +38,7 @@ public class RetrofitFactory {
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(RestClientHandler.SERVER_URL)
+                .baseUrl(SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         client = retrofit.create(RetrofitClient.class);
