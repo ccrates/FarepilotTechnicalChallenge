@@ -105,7 +105,7 @@ public class ProfileActivity extends AppCompatActivity {
                         switch (i){
                             case 0:
                                 Intent camIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                if(camIntent.resolveActivity(getPackageManager()) != null){
+                                if(camIntent.resolveActivity(getPackageManager()) != null) {
                                     startActivityForResult(camIntent, IntentConstants.REQUEST_IMAGE_CAPTURE);
                                 }
                                 break;
@@ -121,7 +121,6 @@ public class ProfileActivity extends AppCompatActivity {
         return builder.create();
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -129,7 +128,7 @@ public class ProfileActivity extends AppCompatActivity {
             switch (requestCode) {
                 case IntentConstants.REQUEST_IMAGE_CAPTURE:
                     Bundle extras = data.getExtras();
-                    bmp = (Bitmap) extras.get(IntentConstants.CAMERA_DATA);
+                    bmp = (Bitmap)extras.get(IntentConstants.CAMERA_DATA);
                     break;
                 case IntentConstants.REQUEST_IMAGE_GALLERY:
                     try {
@@ -142,8 +141,7 @@ public class ProfileActivity extends AppCompatActivity {
                     break;
             }
             if(bmp != null) {
-                //TODO 244 needs to be a constant that is stored somewhere else
-                Bitmap img = Utils.resizeBitmap(bmp, 244);
+                Bitmap img = Utils.resizeBitmap(bmp, Utils.BITMAP_DEFAULT_SIZE);
                 Utils.addBlackAndWhiteFilter(img);
                 avatar.setImageBitmap(img);
 

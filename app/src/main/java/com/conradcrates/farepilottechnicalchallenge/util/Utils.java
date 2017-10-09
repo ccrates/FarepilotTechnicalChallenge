@@ -16,9 +16,11 @@ import java.security.NoSuchAlgorithmException;
 
 public class Utils {
 
+    public static int BITMAP_DEFAULT_SIZE = 360;
+
     public static String createGravatarUrl(String email){
         String hashedEmail = md5(email.trim().toLowerCase());
-        return "https://www.gravatar.com/avatar/" + hashedEmail + "?s=244";
+        return "https://www.gravatar.com/avatar/" + hashedEmail + "?s=" + BITMAP_DEFAULT_SIZE;
     }
 
     // Code courtesy of stackoverflow: https://stackoverflow.com/questions/4846484/md5-hashing-in-android
